@@ -1,5 +1,7 @@
 import prisma from "@/prisma";
-import {Request, Response, NextFunction} from "express"
+import {Request, Response, NextFunction} from "express";
+import {body} from "express-validator";
+import bcrypt from "bcrypt";
 
 export class AuthController {
     async registerUser(req: Request, res: Response, next: NextFunction){
@@ -7,6 +9,7 @@ export class AuthController {
 
             const {username, email, firstName, lastName, password, referalcode} = req.body
 
+            const hashPassword = await bcrypt.hash(password, 10);
             console.log(req.body);
             const newUser = await prisma.user.create({
                 data: {
@@ -14,7 +17,7 @@ export class AuthController {
                     email,
                     firstName,
                     lastName,
-                    password,
+                    password: hashPassword,
                     referalcode
                 }
             });
