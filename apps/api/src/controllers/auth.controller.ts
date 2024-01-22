@@ -2,8 +2,12 @@ import prisma from "@/prisma";
 import {Request, Response, NextFunction} from "express";
 import {body} from "express-validator";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 
 export class AuthController {
+
+    //Register User
+
     async registerUser(req: Request, res: Response, next: NextFunction){
         try {
 
@@ -30,6 +34,8 @@ export class AuthController {
         }
     }
 
+    //Login User
+
     async loginUser(req: Request, res: Response, next: NextFunction){
         try{
             const {email, password} = req.body;
@@ -55,6 +61,20 @@ export class AuthController {
             const isPasswordValid = await bcrypt.compare(password, user?.password);
 
             if(isPasswordValid){
+
+                const payload = {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                }
+
+                const secret = process.env.JWT_SECRET!;
+
+                const expiresIn = 60 * 60 * 1;
+
+                const token = jwt.sign(payload, secret, {expiresIn: expiresIn})
                 return res.json({
                     data: {
                         id: user.id,
@@ -62,7 +82,8 @@ export class AuthController {
                         email: user.email,
                         firstName: user.firstName,
                         lastName: user.lastName
-                    }
+                    },
+                    token: token
                 })
             }else{
                 return res.status(403).json({
