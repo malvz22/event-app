@@ -29,4 +29,50 @@ export class AuthController {
             return res.status(500).send(error);
         }
     }
+
+    async loginUser(req: Request, res: Response, next: NextFunction){
+        try{
+            const {email, password} = req.body;
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    email: email
+                }
+            })
+
+            if(!user) {
+                return res.status(404).json({
+                    message: 'User not found'
+                })
+            }
+
+            if(!user?.password){
+                return res.status(404).json({
+                    message: 'Password required'
+                })
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, user?.password);
+
+            if(isPasswordValid){
+                return res.json({
+                    data: {
+                        id: user.id,
+                        username: user.username,
+                        email: user.email,
+                        firstName: user.firstName,
+                        lastName: user.lastName
+                    }
+                })
+            }else{
+                return res.status(403).json({
+                    message: "wrong password"
+                })
+            }
+            
+        }catch(error: any){
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    }
 }
