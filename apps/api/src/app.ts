@@ -13,7 +13,7 @@ import { PORT } from './config';
 import { AuthRouter } from './routers/auth.router';
 
 export default class App {
-  private app: Express;
+  readonly app: Express;
 
   constructor() {
     this.app = express();
