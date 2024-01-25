@@ -11,6 +11,7 @@ import cors from 'cors';
 import { PORT } from './config';
 // import { SampleRouter } from './routers/sample.router';
 import { AuthRouter } from './routers/auth.router';
+import EventRoute from './routers/addevent.router';
 
 export default class App {
   private app: Express;
@@ -63,6 +64,7 @@ export default class App {
 
     // this.app.use('/samples', sampleRouter.getRouter());
     this.app.use('/auth', authRouter.getRouter());
+    this.app.use(EventRoute);
   }
 
   public start(): void {

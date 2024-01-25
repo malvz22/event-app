@@ -35,3 +35,19 @@ enum Role {
   USER
   ORGANIZER
 }
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String    @unique
+  description String
+  // category String
+  // location String
+  // imageUrl String
+  // startDate DateTime @default(now())
+  // endDate DateTime @default(now())
+  // price      Int
+  // isFree Boolean @default(false)
+  // linkUrl String
+  // createdAt DateTime @default(now())
+  // updatedAt DateTime @updatedAt
+}
