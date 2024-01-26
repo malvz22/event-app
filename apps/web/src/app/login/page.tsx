@@ -16,7 +16,8 @@ export default function LoginPage() {
         email,
         password,
       });
-      console.log(`Response from server: ${response.data}`);
+      console.log('Response from server:', response.data);
+      localStorage.setItem('token', response.data.token);
       alert('Successfully Login');
       router.push('/');
     } catch (error: any) {
