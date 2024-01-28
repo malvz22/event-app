@@ -1,15 +1,20 @@
 import { Fragment, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import React from 'react';
 
-export default function Selector({ data, labelBox }: any) {
+type select = {
+  data: any;
+  labelBox: string;
+};
+export default function Selector({ data, labelBox }: select) {
   const [query, setQuery] = useState('');
 
   const filteredCity =
     query === ''
       ? data
       : data.filter((dataCity: any) =>
-          (dataCity.name ? dataCity.name : dataCity)
+          dataCity
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
@@ -53,7 +58,7 @@ export default function Selector({ data, labelBox }: any) {
                   <Combobox.Option
                     key={eachCity}
                     className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      `relative block cursor-default select-none py-2 pl-10 pr-4 ${
                         active ? 'bg-[#7848F4] text-white' : 'text-gray-900'
                       }`
                     }
@@ -66,7 +71,7 @@ export default function Selector({ data, labelBox }: any) {
                             selected ? 'font-medium' : 'font-normal'
                           }`}
                         >
-                          {eachCity.name ? eachCity.name : eachCity}
+                          {eachCity}
                         </span>
                         {selected ? (
                           <span

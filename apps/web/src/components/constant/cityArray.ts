@@ -1,7 +1,6 @@
 import { City } from 'country-state-city';
 import React from 'react';
 
-export const cityData = City.getCitiesOfCountry('ID');
+const cityObject = City.getCitiesOfCountry('ID');
 
-const run = () => console.log(cityData);
-run;
+export const cityData = cityObject.map((a) => a.name);

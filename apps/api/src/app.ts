@@ -12,6 +12,7 @@ import { PORT } from './config';
 // import { SampleRouter } from './routers/sample.router';
 import { AuthRouter } from './routers/auth.router';
 import EventRoute from './routers/addevent.router';
+import FileUpload from 'express-fileupload';
 
 export default class App {
   private app: Express;
@@ -26,6 +27,7 @@ export default class App {
   private configure(): void {
     this.app.use(cors());
     this.app.use(json());
+    this.app.use(FileUpload());
     this.app.use(urlencoded({ extended: true }));
   }
 
