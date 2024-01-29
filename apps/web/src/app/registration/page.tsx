@@ -16,11 +16,13 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [referalCode, setReferalCode] = useState('');
+  const [points, setPoints] = useState(0);
 
   const handleSubmit = async () => {
     if (confirmPassword != password) {
       return alert('password does not match');
     }
+
     try {
       const response = await axios.post('http://localhost:8000/auth/register', {
         username,
@@ -30,9 +32,9 @@ export default function RegisterPage() {
         password,
         confirmPassword,
         referalCode,
+        points,
       });
       console.log('Response from server:', response.data);
-
       router.push('/login');
     } catch (error: any) {
       console.error(
