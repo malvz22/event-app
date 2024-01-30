@@ -17,6 +17,7 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [referalCode, setReferalCode] = useState('');
   const [points, setPoints] = useState(0);
+  const [inputReferalCode, setInputReferalCode] = useState('');
 
   const handleSubmit = async () => {
     if (confirmPassword != password) {
@@ -24,6 +25,17 @@ export default function RegisterPage() {
     }
 
     try {
+      // const validReferalCode = await axios.post(
+      //   'http://localhost:8000/auth/referalcodes',
+      //   { inputReferalCode },
+      // );
+      // console.log(validReferalCode.data);
+
+      // if (inputReferalCode === validReferalCode?.data) {
+      //   console.log('10000 points added to User');
+      //   setPoints(points + 10000);
+      // }
+
       const response = await axios.post('http://localhost:8000/auth/register', {
         username,
         email,
@@ -32,8 +44,9 @@ export default function RegisterPage() {
         password,
         confirmPassword,
         referalCode,
-        points,
+        inputReferalCode,
       });
+
       console.log('Response from server:', response.data);
       router.push('/login');
     } catch (error: any) {
@@ -170,8 +183,8 @@ export default function RegisterPage() {
               id="referalCode"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2"
               placeholder="Enter referal code"
-              value={referalCode}
-              onChange={(e) => setReferalCode(e.target.value)}
+              value={inputReferalCode}
+              onChange={(e) => setInputReferalCode(e.target.value)}
             />
           </div>
           <button

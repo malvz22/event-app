@@ -19,6 +19,7 @@ export class AuthRouter {
       this.authController.registerUser,
     );
     this.router.post('/login', this.authController.loginUser);
+    this.router.get('/referalcodes', this.authController.getUserReferalCode);
   }
 
   getRouter(): Router {

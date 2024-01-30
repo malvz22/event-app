@@ -32,10 +32,39 @@ export class AuthController {
         lastName,
         password,
         referalcode,
-        points,
+        inputReferalCode,
       } = req.body;
 
+      let points = 0;
+
       const hashPassword = await bcrypt.hash(password, 10);
+
+      let refCode = true;
+
+      // let addPoints = 0;
+
+      const isRefcodeValid = await prisma.user.findFirst({
+        select: {
+          referalcode: true,
+        },
+        where: {
+          referalcode: inputReferalCode,
+        },
+      });
+
+      console.log(isRefcodeValid?.referalcode);
+
+      if (!isRefcodeValid?.referalcode || isRefcodeValid.referalcode === null) {
+        refCode = false;
+      }
+
+      console.log(refCode);
+
+      if ((refCode = false)) {
+        points = 0;
+      } else if ((refCode = true)) {
+        points = 10000;
+      }
 
       console.log(req.body);
 
@@ -118,6 +147,37 @@ export class AuthController {
     } catch (error: any) {
       console.log(error);
       return res.status(500).send(error);
+    }
+  }
+
+  //Get all user data
+
+  async getUserReferalCode(req: Request, res: Response, next: NextFunction) {
+    try {
+      const inputReferalCode = req.body.referalcode;
+
+      let isRefcodeValid = true;
+
+      const userReferalCode = await prisma.user.findFirst({
+        select: {
+          referalcode: true,
+        },
+        where: {
+          referalcode: inputReferalCode,
+        },
+      });
+
+      if (!userReferalCode) {
+        isRefcodeValid = false;
+        // if (!userReferalCode || userReferalCode == null) {
+        return res.status(400).send('Invalid Referal Code');
+        // }
+        // throw new Error('Invalid Referal Code');
+      }
+
+      return res.status(200).send(isRefcodeValid);
+    } catch (error: any) {
+      next(error);
     }
   }
 }
