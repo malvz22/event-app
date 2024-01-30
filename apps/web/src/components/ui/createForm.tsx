@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-
+import Link from "next/link"
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ const Createform = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [payment, setPayment] = useState(true);
-  const [isFree, setIsFree] = useState('Free');
+  const [isFree, setIsFree] = useState('Paid');
   const [price, setPrice] = useState('');
   const [totalSeat, setTotalSeat] = useState('');
   const [organizer, setOrganizer]= useState("")
@@ -95,7 +95,7 @@ const Createform = () => {
     // setPrice('');
     // setTotalSeat('');
 
-    // navigate("/")
+    // navigate("/detailEvent")
   };
 
   const onImageUpload = (e: any) => {
@@ -167,10 +167,11 @@ const Createform = () => {
                 />
               ) : (
                 <Image
-                  src="/image.png"
+                  src="/image.avif"
                   alt="Preview Image"
                   width={330}
                   height={280}
+                  loading="lazy"
                 />
               )}
             </figure>
@@ -294,14 +295,16 @@ const Createform = () => {
           </div>
           </div>
         </div>
-        <button
-          className="text-white bg-[#7848F4] font-medium rounded-lg text-sm w-64 h-10 text-center block"
-          type="submit"
-          // onClick={() => console.log(title)}
-          // on={saveEvent}
-        >
-          Submit
-        </button>
+        <Link href="/detailEvent">
+          <button
+            className="text-white bg-[#7848F4] font-medium rounded-lg text-sm w-64 h-10 text-center block"
+            type="submit"
+            // onClick={() => console.log(title)}
+            // on={saveEvent}
+          >
+            Submit
+          </button>
+        </Link>
       </form>
     </div>
   );

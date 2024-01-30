@@ -7,6 +7,7 @@ const DetailEvent = () => {
     <div className="py-[1rem] px-[3rem] z-[-10]">
       <div className="  flex relative">
         <Image
+          loading="lazy"
           src={'/image.avif'}
           alt="image event"
           width={400}

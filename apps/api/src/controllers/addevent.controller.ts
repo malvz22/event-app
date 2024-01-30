@@ -16,7 +16,7 @@ export const getEvents = async (
   next: NextFunction,
 ) => {
   try {
-    const response = await prisma.eventList.findMany({ take: 2 });
+    const response = await prisma.eventList.findMany();
     res.status(200).json(response);
   } catch (err: any) {
     res.status(500).json({ msg: err.message });
