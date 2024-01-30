@@ -17,7 +17,6 @@ export default function RegisterPage() {
         return alert("Form Submitted!");
     };
 
-
     return(
         <>
             <div className="flex flex-col">
@@ -61,11 +60,10 @@ export default function RegisterPage() {
                             <input type="text" id="referalCode" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2" placeholder="Enter referal code" value={values.referalCode} onChange={handleChange} required/>
                         </div>
                         <button type="submit" className="text-white bg-[#7848F4] font-medium rounded-lg text-sm w-64 h-10 text-center">Sign Up</button>
-                        </form> 
+                        </form>
                     )}
-                    
+
                 </Formik>
-                
 
             </div>
         </>
