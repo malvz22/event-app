@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -54,3 +55,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 export { Button, buttonVariants }
+=======
+import Link from 'next/link';
+
+type buttonProps = {
+  type: 'button' | 'submit';
+  title: string;
+};
+
+const Button = ({ type, title }: buttonProps) => {
+  return (
+    <div>
+      <button
+        className="border-none bg-[#7848F4] p-2 px-[2rem] text-white text-[1.2rem] rounded-md cursor-pointer hover:shadow-md hover:bg-[#6039c3]"
+        type={type}
+      >
+        <label>{title}</label>
+      </button>
+    </div>
+  );
+};
+
+export default Button;
+>>>>>>> 1af5c5141872d0ff90347e60d842e968afce22dc
