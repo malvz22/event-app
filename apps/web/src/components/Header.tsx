@@ -18,15 +18,18 @@ export const Header = () => {
       <div className="wrapper flex items-center justify-between lg:px-[5rem]">
         <Link href="/" className="w-36">
           <h1 className="text-black font-bold text-[30px] lg:text-[40px]">
-            Mini<span className="text-[#7848F4]">Project</span>
+            Event<span className="text-[#7848F4]">Horizon</span>
           </h1>
         </Link>
         <div className="lg:visible invisible">
           <Navbar />
         </div>
         <div className="flex w-32 justify-end gap-3 items-center lg:mx-[2rem]">
-          <Link href="/">
+          <Link href="/registration">
             <Button type="button" title="signup" />
+          </Link>
+          <Link href="/login">
+            <Button type="button" title="login" />
           </Link>
           <button className="visible lg:invisible" onClick={toggleNavbar}>
             <Hamburger />
