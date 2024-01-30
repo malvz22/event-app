@@ -16,7 +16,7 @@ import FileUpload from 'express-fileupload';
 import multer from 'multer';
 
 export default class App {
-  private app: Express;
+  readonly app: Express;
 
   constructor() {
     this.app = express();
@@ -32,31 +32,6 @@ export default class App {
     this.app.use(urlencoded({ extended: true }));
   }
 
-  private handleError(): void {
-    // not found
-    this.app.use((req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/api/')) {
-        res.status(404).send('Not found !');
-      } else {
-        next();
-      }
-    });
-
-    // error
-    this.app.use(
-      (err: Error, req: Request, res: Response, next: NextFunction) => {
-        if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
-          res.status(500).send('Error !');
-        } else {
-          next();
-        }
-      },
-    );
-  }
-
-  //define routes from router directory
-
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const authRouter = new AuthRouter();
@@ -69,6 +44,31 @@ export default class App {
     this.app.use('/auth', authRouter.getRouter());
     this.app.use('/', eventRoute);
   }
+
+  private handleError(): void {
+    // error
+    this.app.use(
+      (err: Error, req: Request, res: Response, next: NextFunction) => {
+        if (req.path.includes('/api/')) {
+          console.error('Error : ', err.stack);
+          res.status(500).send('Error !');
+        } else {
+          next();
+        }
+      },
+    );
+
+    // not found
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      if (req.path.includes('/api/')) {
+        res.status(404).send('Not found !');
+      } else {
+        next();
+      }
+    });
+  }
+
+  //define routes from router directory
 
   public start(): void {
     this.app.listen(PORT, () => {
