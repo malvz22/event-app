@@ -1,84 +1,90 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 import path from 'path';
+import type { EventList, Payment } from '@prisma/client';
 import fs from 'fs';
+import { NextFunction, Request, Response } from 'express';
+import express from 'express';
+import multer from 'multer';
+const app = express();
 
-export const getEvents = async (req: any, res: any) => {
+import fileUpload, { UploadedFile } from 'express-fileupload';
+
+export const getEvents = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const response = await prisma.event.findMany();
+    const response = await prisma.eventList.findMany({ take: 2 });
     res.status(200).json(response);
   } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
 
-export const getEventById = async (req: any, res: any) => {
-  try {
-    const response = await prisma.event.findUnique({
-      where: {
-        id: Number(req.params.id),
-      },
-    });
-    res.status(200).json(response);
-  } catch (err: any) {
-    res.status(404).json({ msg: err.message });
-  }
-};
+// export const getEventById = async (req: any, res: any) => {
+//   try {
+//     const response = await prisma.event.findUnique({
+//       where: {
+//         id: Number(req.params.id),
+//       },
+//     });
+//     res.status(200).json(response);
+//   } catch (err: any) {
+//     res.status(404).json({ msg: err.message });
+//   }
+// };
 
-export const createEvent = async (req: any, res: any) => {
-  if (req.files === null)
-    return res.status(400).json({ msg: 'No File Uploaded' });
+export const createEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const {
     title,
     description,
-    category,
-    location,
     startDate,
+    location,
     endDate,
-    price,
-    linkUrl,
     isFree,
-    createdAt,
-    updatedAt,
+    price,
+    totalSeat,
+    categoryName,
+  }: {
+    title: string;
+    description: string;
+    startDate: Date;
+    location: string;
+    endDate: Date;
+    isFree: Payment;
+    price: number;
+    totalSeat: number;
+    categoryName?: string;
   } = req.body;
 
-  const file = req.files.file;
-  const fileSize = file.data.length;
-  const ext = path.extname(file.name);
-  const fileName = file.md5 + ext;
-  const url = `${req.protocol}://${req.get('host')}/images/${fileName}`;
-  const allowedType = ['.png', '.jpg', '.jpeg'];
-
-  if (!allowedType.includes(ext.toLowerCase()))
-    return res.status(422).json({ msg: 'Invalid Images' });
-  if (fileSize > 5000000)
-    return res.status(422).json({ msg: 'Image must be less than 5 MB' });
-
-  file.mv(`./src/public/images/${fileName}`, async (err: any) => {
-    if (err) return res.status(500).json({ msg: err.message });
-    try {
-      const event = await prisma.event.create({
-        data: {
-          title: title,
-          category: category,
-          description: description,
-          imageUrl: imageUrl,
-          location: location,
-          cities: cities,
-          isFree: isFree,
-          startDate: startDate,
-          endDate: endDate,
-          price: price,
-          totalSeat: totalSeat,
-          imageUrl: fileName,
+  await prisma.eventList.create({
+    data: {
+      title: title,
+      description: description,
+      location: location,
+      isFree: isFree,
+      startDate: startDate,
+      endDate: endDate,
+      price: price,
+      totalSeat: totalSeat,
+      categories: {
+        connectOrCreate: {
+          where: {
+            categoryName: categoryName,
+          },
+          create: {
+            categoryName: categoryName,
+          },
         },
-      });
-      res.status(201).json(event);
-    } catch (err: any) {
-      console.log(err.message);
-    }
-  });
+      },
+    },
+  }),
+    res.status(201).json({ title });
+  // console.log(image);
 };
-
-// export const updateEvent = (req, res) => {};
-// export const deleteEvent = (req, res) => {};

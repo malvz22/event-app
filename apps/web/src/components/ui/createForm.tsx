@@ -12,60 +12,83 @@ import { CategoryArray } from '../constant/category';
 import Image from 'next/image';
 import Selector from './selector';
 import { cityData } from '../constant/cityArray';
+import path from 'path';
 
 const Createform = () => {
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [image, setImage] = useState<File | null>(null);
   const [location, setLocation] = useState('');
   const [cities, setCity] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [payment, setPayment] = useState(true);
+  const [isFree, setIsFree] = useState('Free');
   const [price, setPrice] = useState('');
   const [totalSeat, setTotalSeat] = useState('');
 
-  const [file, setFile] = useState('');
   const [preview, setPreview] = useState('');
   const [disabled, setDisabled] = useState(false);
-
-  const isFree = 'Free';
+  const [file, setFile] = useState();
 
   const changePayment = () => {
     setPayment(!payment);
     setDisabled(!disabled);
-    const isFree = payment === true ? 'Free' : 'Paid';
+    setIsFree(() => (payment === true ? 'Free' : 'Paid'));
     return console.log(isFree);
-  };
-
-  const LoadImage = (e: any) => {
-    const image = e.target.files[0];
-    setFile(image);
-    setPreview(URL.createObjectURL(image));
   };
 
   const saveEvent = async (e: any) => {
     e.preventDefault();
-    const formdata = new FormData();
 
-    try {
-      await axios.post('http://localhost:8000/event', {
-        title: title,
-        category: category,
-        description: description,
-        imageUrl: imageUrl,
-        location: location,
-        cities: cities,
-        isFree: isFree,
-        startDate: startDate,
-        endDate: endDate,
-        price: price,
-        totalSeat: totalSeat,
+    const data = new FormData();
+
+    data.append('image', image as Blob);
+
+    axios
+      .post('http://localhost:8000/event', data, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        console.log('post success: ', res);
+      })
+      .catch((err: any) => {
+        console.log('err:', err);
       });
-    } catch (error) {
-      console.log(error);
-    }
+
+    await axios.post('http://localhost:8000/event', {
+      title: title,
+      categoryName: categoryName,
+      description: description,
+      location: location,
+      isFree: isFree,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      price: Number(price),
+      totalSeat: Number(totalSeat),
+    });
+    setTitle('');
+    setCategoryName('');
+    setDescription('');
+    setLocation('');
+    setIsFree('Free');
+    setPayment(true);
+    setStartDate('');
+    setEndDate('');
+    setPrice('');
+    setTotalSeat('');
+  };
+
+  const onImageUpload = (e: any) => {
+    const file = !e.target.files
+      ? console.log('please add image')
+      : e.target.files[0];
+
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
   };
 
   return (
@@ -88,10 +111,14 @@ const Createform = () => {
           <div className="block">
             <label className=" block ">Category:</label>
 
-            <select className="border-gray-500 border rounded-md w-full p-2">
-              {CategoryArray.map((category, i) => (
-                <option key={i} value={category}>
-                  {category}
+            <select
+              className="border-gray-500 border rounded-md w-full p-2"
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
+            >
+              {CategoryArray.map((categoryName, i) => (
+                <option key={i} value={categoryName}>
+                  {categoryName}
                 </option>
               ))}
             </select>
@@ -110,8 +137,8 @@ const Createform = () => {
           <div className="block w-full ">
             <div className="mb-[1rem]">
               <label>Image Url: </label>
-              <input type="file" onChange={LoadImage} />
-              {/* <span>Choose a file...</span> */}
+              <input type="file" onChange={(e) => onImageUpload(e)} />
+              <span>Choose a file...</span>
             </div>
 
             <figure className="">
@@ -132,6 +159,7 @@ const Createform = () => {
               )}
             </figure>
           </div>
+
           <div className="flex col-span-2 gap-[1rem]">
             <div className="w-4/5">
               <label>Complete Address:</label>
@@ -218,7 +246,8 @@ const Createform = () => {
         <button
           className="text-white bg-[#7848F4] font-medium rounded-lg text-sm w-64 h-10 text-center block"
           type="submit"
-          onClick={() => console.log(title, category)}
+          // onClick={() => console.log(title)}
+          // on={saveEvent}
         >
           Submit
         </button>

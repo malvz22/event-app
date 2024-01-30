@@ -10,15 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Sample {
-//   id        Int      @id @default(autoincrement())
-//   name      String
-//   code      String   @unique
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+model Sample {
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@map("samples") // if you want to use snake_case format
-// }
+  @@map("samples") // if you want to use snake_case format
+}
 
 model User {
   id          Int     @id @default(autoincrement())
@@ -29,7 +29,7 @@ model User {
   password    String
   referalcode String?
   role        Role    @default(USER)
-  events      Event[]
+  // events      Event[]
 }
 
 enum Role {
@@ -37,41 +37,41 @@ enum Role {
   ORGANIZER
 }
 
-model Event {
+model EventList {
   id              Int           @id @default(autoincrement())
-  user            User          @relation(fields:[userId], references:[id], onDelete:Cascade,onUpdate:Cascade)
-  userId          Int           
-  categories      Category      @relation(fields:[categoriesId],references:[id],onDelete:Cascade, onUpdate:Cascade)
-  categoriesId    Int           
+  // user            User?          @relation(fields:[userId], references:[id], onDelete:Cascade,onUpdate:Cascade) 
+  // userId          Int?                     
+  categories      Category?      @relation(fields:[categoriesId],references:[id],onDelete:Cascade, onUpdate:Cascade)
+  categoriesId    Int?           
   title           String?       
-  description     String
-  location        String
-  cities          LocationCity  @relation(fields:[citiesId], references:[id], onDelete:Cascade,onUpdate:Cascade)
-  citiesId        Int           
-  imageUrl        String
-  startDate       DateTime      @default(now())
-  endDate         DateTime      @default(now())
+  description     String?
+  location        String?
+  cities          LocationCity?  @relation(fields:[citiesId], references:[id], onDelete:Cascade,onUpdate:Cascade)
+  citiesId        Int?           
+  // imageUrl        String?
+  startDate       DateTime?      @default(now())
+  endDate         DateTime?      @default(now())
   price           Int?
-  isFree          Payment       @default(PAID)
-  totalSeat         Int?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  totalSeat       Int?
+  isFree          Payment?       @default(Paid)
+  createdAt       DateTime?      @default(now())
+  updatedAt       DateTime?      @updatedAt
 }
 
 enum Payment{
-  PAID
-  FREE
+  Paid
+  Free
 }
 
 model Category{
   id            Int @id @default(autoincrement())
-  categoryName  String @unique
-  events        Event[]
+  categoryName  String? @unique
+  events        EventList[]
 }
 
 model LocationCity{
   id            Int @id @default(autoincrement())
   cityName      String @unique
-  events        Event[]
+  events        EventList[]
 }
 
