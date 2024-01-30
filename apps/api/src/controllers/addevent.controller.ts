@@ -88,3 +88,4 @@ export const createEvent = async (
     res.status(201).json({ title });
   // console.log(image);
 };
+

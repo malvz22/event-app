@@ -29,7 +29,6 @@ model User {
   password    String
   referalcode String?
   role        Role    @default(USER)
-  // events      Event[]
 }
 
 enum Role {
@@ -38,24 +37,23 @@ enum Role {
 }
 
 model EventList {
-  id              Int           @id @default(autoincrement())
-  // user            User?          @relation(fields:[userId], references:[id], onDelete:Cascade,onUpdate:Cascade) 
-  // userId          Int?                     
-  categories      Category?      @relation(fields:[categoriesId],references:[id],onDelete:Cascade, onUpdate:Cascade)
+  id              Int             @id @default(autoincrement())
+                     
+  categories      Category?       @relation(fields:[categoriesId],references:[id],onDelete:Cascade, onUpdate:Cascade)
   categoriesId    Int?           
   title           String?       
   description     String?
   location        String?
-  cities          LocationCity?  @relation(fields:[citiesId], references:[id], onDelete:Cascade,onUpdate:Cascade)
+  cities          LocationCity?   @relation(fields:[citiesId], references:[id], onDelete:Cascade,onUpdate:Cascade)
   citiesId        Int?           
-  // imageUrl        String?
-  startDate       DateTime?      @default(now())
-  endDate         DateTime?      @default(now())
+  startDate       DateTime?       @default(now())
+  endDate         DateTime?       @default(now())
   price           Int?
   totalSeat       Int?
-  isFree          Payment?       @default(Paid)
-  createdAt       DateTime?      @default(now())
-  updatedAt       DateTime?      @updatedAt
+  isFree          Payment?        @default(Paid)
+  createdAt       DateTime?       @default(now())
+  updatedAt       DateTime?       @updatedAt
+  discount        Int?            @default(0)
 }
 
 enum Payment{
