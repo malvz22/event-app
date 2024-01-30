@@ -26,8 +26,9 @@ const DetailEvent = () => {
               maiores repellat mollitia libero sequi veniam dolorem recusandae.
             </h3>
           </div>
-          <div className="w-[5rem] bg-white p-[3rem]">
-            <Image src={"calender.png"} alt="calender image" width={100} height={100}/>
+          <div className="w-full p-[3rem] inline">
+            <Image src={"/calendar.png"} alt="calender image" width={50} height={50} className="z-100"/>
+            <h3 className="text-white font-bold">Time, Day</h3>
           </div>
         </div>
       </div>

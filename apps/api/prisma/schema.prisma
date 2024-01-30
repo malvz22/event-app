@@ -42,8 +42,9 @@ model EventList {
   categories      Category?       @relation(fields:[categoriesId],references:[id],onDelete:Cascade, onUpdate:Cascade)
   categoriesId    Int?           
   title           String?       
-  description     String?
+  description     String?       @db.LongText
   location        String?
+  organizer       String?       
   cities          LocationCity?   @relation(fields:[citiesId], references:[id], onDelete:Cascade,onUpdate:Cascade)
   citiesId        Int?           
   startDate       DateTime?       @default(now())
@@ -54,6 +55,7 @@ model EventList {
   createdAt       DateTime?       @default(now())
   updatedAt       DateTime?       @updatedAt
   discount        Int?            @default(0)
+  discountLimit   Int?            
 }
 
 enum Payment{
