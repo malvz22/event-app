@@ -9,6 +9,8 @@ import { SlCalender } from 'react-icons/sl';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 const DetailEvent = ({ params }: { params: { id: string } }) => {
+  const [refferal, setRefferal] = useState(true);
+  const [checkRefferal, setCheckRefferal] = useState(true);
   const [dataBlog, setDataBlog] = useState([]);
   useEffect(() => {
     getProducts();
@@ -57,7 +59,7 @@ const DetailEvent = ({ params }: { params: { id: string } }) => {
             <p className="text-wrap">{dataBlog.description}</p>
           </div>
 
-          <div className="bg-[#7848F4] w-full px-[2rem] py-[1rem] h-[15rem] rounded-lg  right-0 t-0 grid grid-cols-2 gap-[2rem]">
+          <form className="bg-[#7848F4] w-full px-[2rem] py-[1rem] h-[15rem] rounded-lg  right-0 t-0 grid grid-cols-2 gap-[2rem]">
             <div className="inline gap-[3rem]">
               <div>
                 <div className="  p-[1.5rem] flex gap-[1rem] text-center">
@@ -99,12 +101,13 @@ const DetailEvent = ({ params }: { params: { id: string } }) => {
 
               <div className="flex h-[3rem] text-white font-bold gap-[2rem]">
                 <div>
-                  <h3 className="mb-[0.5rem]">Book Now!</h3>
+                  <h3 className="mb-[0.5rem]">Check Refferal</h3>
                   <button
                     type="button"
                     className="border-none bg-white p-2 px-[2rem] text-black text-[1.2rem] rounded-md cursor-pointer hover:shadow-md hover:bg-[#6039c3]"
+                    onClick={(e) => setRefferal(!refferal)}
                   >
-                    Book
+                    Check
                   </button>
                 </div>
                 <div>
@@ -112,14 +115,25 @@ const DetailEvent = ({ params }: { params: { id: string } }) => {
                   <input
                     type="text"
                     // value={refferalCode}
-                    // onChange={(e) => setEndDate(e.target.value)}
+                    onChange={(e) => setCheckRefferal(!refferal)}
                     className=" w-full border border-gray-500 rounded-lg h-[3rem] text-black px-[1rem]"
                     placeholder="Refferal Code"
                   />
                 </div>
               </div>
+              <div>
+                {!refferal && !checkRefferal ? (
+                  <h3 className="mt-[4rem] font-bold text-[1rem]">
+                    You get discount {dataBlog.discount}
+                  </h3>
+                ) : (
+                  <h3 className="mt-[4rem] font-bold text-[1rem]">
+                    Refferal code tidak ditemukan
+                  </h3>
+                )}
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>
