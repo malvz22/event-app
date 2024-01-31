@@ -14,6 +14,7 @@ export const Header = () => {
   const toggleNavbar = () => {
     setSideMenu(() => !isSideMenu);
   };
+  const token = localStorage.getItem('token');
 
   const refreshPage = () => {
     window.location.reload();
@@ -21,11 +22,11 @@ export const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
     refreshPage();
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     if (token) {
       setDisplayUser(!displayUser);
       setShowButtons(!showButtons);
@@ -33,7 +34,7 @@ export const Header = () => {
       setDisplayUser(displayUser);
       setShowButtons(showButtons);
     }
-  }, []);
+  }, [token]);
 
   return (
     <header className="w-full border-b items-center z-1000">
@@ -63,7 +64,9 @@ export const Header = () => {
                 : 'hidden'
             }
           >
-            <p className="cursor-pointer">usermail@mail.com</p>
+            <p className="cursor-pointer">
+              {localStorage.getItem('userEmail')}
+            </p>
             <Link href="/">
               <button
                 onClick={handleLogout}
