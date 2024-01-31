@@ -4,14 +4,36 @@ import Link from 'next/link';
 
 import Hamburger from './ui/hamburger';
 import Navbar from './ui/navbar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './ui/button';
 
 export const Header = () => {
   const [isSideMenu, setSideMenu] = useState(true);
+  const [showButtons, setShowButtons] = useState(true);
+  const [displayUser, setDisplayUser] = useState(false);
   const toggleNavbar = () => {
     setSideMenu(() => !isSideMenu);
   };
+
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    refreshPage();
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setDisplayUser(!displayUser);
+      setShowButtons(!showButtons);
+    } else if (!token) {
+      setDisplayUser(displayUser);
+      setShowButtons(showButtons);
+    }
+  }, []);
 
   return (
     <header className="w-full border-b items-center z-1000">
@@ -25,12 +47,32 @@ export const Header = () => {
           <Navbar />
         </div>
         <div className="flex w-32 justify-end gap-3 items-center lg:mx-[2rem]">
-          <Link href="/registration">
-            <Button type="button" title="signup" />
-          </Link>
-          <Link href="/login">
-            <Button type="button" title="login" />
-          </Link>
+          <div className={showButtons ? 'flex gap-3' : 'hidden'}>
+            <Link href="/registration">
+              <Button type="button" title="signup" />
+            </Link>
+            <Link href="/login">
+              <Button type="button" title="login" />
+            </Link>
+          </div>
+
+          <div
+            className={
+              displayUser
+                ? 'flex gap-3 justify-center items-center align-middle'
+                : 'hidden'
+            }
+          >
+            <p className="cursor-pointer">usermail@mail.com</p>
+            <Link href="/">
+              <button
+                onClick={handleLogout}
+                className="bg-[#7848F4] text-white p-3 rounded-md"
+              >
+                logout
+              </button>
+            </Link>
+          </div>
           <button className="visible lg:invisible" onClick={toggleNavbar}>
             <Hamburger />
           </button>
