@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-
-import React, { useState } from 'react';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Button from './button';
+// import Button from './button';
 import { headers } from 'next/headers';
 import { FileImage } from 'lucide-react';
 import { FileUpload } from './fileUploader';
@@ -13,6 +13,11 @@ import Image from 'next/image';
 import Selector from './selector';
 import { cityData } from '../constant/cityArray';
 import path from 'path';
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
 
 const Createform = () => {
   const [title, setTitle] = useState('');
@@ -24,13 +29,17 @@ const Createform = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [payment, setPayment] = useState(true);
-  const [isFree, setIsFree] = useState('Free');
+  const [isFree, setIsFree] = useState('Paid');
   const [price, setPrice] = useState('');
   const [totalSeat, setTotalSeat] = useState('');
+  const [organizer, setOrganizer] = useState('');
+  const [discount, setDiscount] = useState('');
+  const [discountLimit, setDiscountLimit] = useState('');
 
   const [preview, setPreview] = useState('');
   const [disabled, setDisabled] = useState(false);
   const [file, setFile] = useState();
+  // const navigate=useNavigate()
 
   const changePayment = () => {
     setPayment(!payment);
@@ -42,23 +51,6 @@ const Createform = () => {
   const saveEvent = async (e: any) => {
     e.preventDefault();
 
-    const data = new FormData();
-
-    data.append('image', image as Blob);
-
-    axios
-      .post('http://localhost:8000/event', data, {
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        console.log('post success: ', res);
-      })
-      .catch((err: any) => {
-        console.log('err:', err);
-      });
-
     await axios.post('http://localhost:8000/event', {
       title: title,
       categoryName: categoryName,
@@ -69,17 +61,11 @@ const Createform = () => {
       endDate: new Date(endDate),
       price: Number(price),
       totalSeat: Number(totalSeat),
+      organizer: organizer,
+      discount: Number(discount),
+      discountLimit: Number(discountLimit),
+      cities: cities,
     });
-    setTitle('');
-    setCategoryName('');
-    setDescription('');
-    setLocation('');
-    setIsFree('Free');
-    setPayment(true);
-    setStartDate('');
-    setEndDate('');
-    setPrice('');
-    setTotalSeat('');
   };
 
   const onImageUpload = (e: any) => {
@@ -138,7 +124,7 @@ const Createform = () => {
             <div className="mb-[1rem]">
               <label>Image Url: </label>
               <input type="file" onChange={(e) => onImageUpload(e)} />
-              <span>Choose a file...</span>
+              <span>Choose a file... </span>
             </div>
 
             <figure className="">
@@ -151,10 +137,11 @@ const Createform = () => {
                 />
               ) : (
                 <Image
-                  src="/image.png"
+                  src="/image.avif"
                   alt="Preview Image"
                   width={330}
                   height={280}
+                  loading="lazy"
                 />
               )}
             </figure>
@@ -242,7 +229,43 @@ const Createform = () => {
               />
             </div>
           </div>
+          <div>
+            <label className="">Organizer Name:</label>
+            <input
+              type="text"
+              onChange={(e) => setOrganizer(e.target.value)}
+              value={organizer}
+              className="bg-gray-50 border border-gray-500 text-gray-900 text-sm rounded-lg block w-full p-2 mb-[1rem]"
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center">
+              <div>
+                <label>Discount: </label>
+                <input
+                  type="number"
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
+                  className="block w-full border border-gray-500 rounded-lg p-2 mb-[1rem"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center">
+              <div>
+                <label>DiscountLimit: </label>
+                <input
+                  type="number"
+                  value={discountLimit}
+                  onChange={(e) => setDiscountLimit(e.target.value)}
+                  className="block w-full border border-gray-500 rounded-lg p-2 mb-[1rem"
+                />
+              </div>
+            </div>
+          </div>
         </div>
+
         <button
           className="text-white bg-[#7848F4] font-medium rounded-lg text-sm w-64 h-10 text-center block"
           type="submit"
