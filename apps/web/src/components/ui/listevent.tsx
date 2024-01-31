@@ -64,12 +64,12 @@ const Listevent = () => {
             </Link>
           ))}
         </div>
-        <div className="flex gap-2 justify-center mb-[5rem]">
+        <div className="flex gap-4 justify-center mb-[5rem]">
           {pages.map((page: any, index) => (
             <button
               key={index}
               onClick={() => setCurrentPage(page)}
-              className="border-none bg-[#7848F4] p-2 text-white text-[1.2rem] rounded-md cursor-pointer hover:shadow-md hover:bg-[#6039c3]"
+              className="border-none bg-[#7848F4] p-2 px-[1rem] text-white text-[1.2rem] rounded-md cursor-pointer hover:shadow-md hover:bg-[#6039c3]"
             >
               {page}
             </button>
