@@ -4,7 +4,7 @@ import { City, Country, State } from 'country-state-city';
 import { useEffect, useState } from 'react';
 import Selector from './selector';
 
-import Button from './button';
+import Buttonweb from './buttonWeb';
 
 type filterProps = {
   label: string;
@@ -34,7 +34,7 @@ export default function DropDown({
           <Selector data={dataEvent} labelBox={dataPlaceholder} />
         </div>
       </section>
-      <Button type="submit" title="search" />
+      <Buttonweb type="submit" title="search" />
     </div>
   );
 }

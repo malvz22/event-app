@@ -76,7 +76,7 @@ export class AuthController {
           lastName,
           password: hashPassword,
           referalcode: generateReferral(username),
-          points,
+          // points,
         },
       });
 
