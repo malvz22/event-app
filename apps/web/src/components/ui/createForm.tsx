@@ -239,27 +239,24 @@ const Createform = () => {
             />
           </div>
 
-          <div>
-            <div className="flex items-center">
-              <div>
-                <label>Discount: </label>
-                <input
-                  type="number"
-                  value={discount}
-                  onChange={(e) => setDiscount(e.target.value)}
-                  className="block w-full border border-gray-500 rounded-lg p-2 mb-[1rem"
-                />
-              </div>
+          <div className="flex items-center gap-[1rem]">
+            <div>
+              <label>Discount: </label>
+              <input
+                type="number"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}
+                className="block w-full border border-gray-500 rounded-lg p-2 mb-[1rem]"
+              />
             </div>
-
-            <div className="flex items-center">
+            <div>
               <div>
                 <label>DiscountLimit: </label>
                 <input
                   type="number"
                   value={discountLimit}
                   onChange={(e) => setDiscountLimit(e.target.value)}
-                  className="block w-full border border-gray-500 rounded-lg p-2 mb-[1rem"
+                  className="block w-full border border-gray-500 rounded-lg p-2 mb-[1rem]"
                 />
               </div>
             </div>

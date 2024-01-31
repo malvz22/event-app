@@ -48,7 +48,7 @@ const Listevent = () => {
                 <div className="flex relative ">
                   <Image
                     loading="lazy"
-                    src="/image.avif"
+                    src="/BG2.avif"
                     alt="Preview Image"
                     width={330}
                     height={280}
@@ -58,7 +58,9 @@ const Listevent = () => {
                   </h3>
                 </div>
                 <div>
-                  <h2 className="text-black">{product.title}</h2>
+                  <h2 className="text-black text-center font-bold pt-[1rem]">
+                    {product.title}
+                  </h2>
                 </div>
               </div>
             </Link>
