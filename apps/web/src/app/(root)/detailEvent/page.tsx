@@ -27,7 +27,12 @@ const DetailEvent = () => {
             </h3>
           </div>
           <div className="w-[5rem] bg-white p-[3rem]">
-            <Image src={"calender.png"} alt="calender image" width={100} height={100}/>
+            <Image
+              src={'/calendar.png'}
+              alt="calender image"
+              width={100}
+              height={100}
+            />
           </div>
         </div>
       </div>

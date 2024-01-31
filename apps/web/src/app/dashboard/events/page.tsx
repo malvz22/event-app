@@ -5,7 +5,7 @@ export default function DashboardEvent() {
     <>
       <div className="flex flex-row">
         <DashboardSidebar />
-        <div className=" w-full p-4">
+        <div className=" max-w-[1200px] mx-auto p-4">
           <div className="flex flex-col">
             <h1>Your events list</h1>
 
