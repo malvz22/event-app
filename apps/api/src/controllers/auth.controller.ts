@@ -41,7 +41,7 @@ export class AuthController {
 
       let refCode = true;
 
-      // let addPoints = 0;
+      let addPoints = 0;
 
       const isRefcodeValid = await prisma.user.findFirst({
         select: {
