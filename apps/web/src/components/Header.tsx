@@ -21,13 +21,11 @@ export const Header = () => {
 
   const refreshPage = () => {
     window.location.reload();
-    router.push('/Landing');
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
-    refreshPage();
   };
 
   useEffect(() => {
@@ -43,7 +41,7 @@ export const Header = () => {
   return (
     <header className="w-full border-b items-center z-1000">
       <div className="wrapper flex items-center justify-between lg:px-[5rem]">
-        <Link href="/" className="w-36">
+        <Link href="/Landing" className="w-36">
           <h1 className="text-black font-bold text-[30px] lg:text-[40px]">
             Event<span className="text-[#7848F4]">Horizon</span>
           </h1>
@@ -68,10 +66,10 @@ export const Header = () => {
                 : 'hidden'
             }
           >
-            <p className="cursor-pointer">
+            <p className="cursor-pointer fon-bold">
               {localStorage.getItem('userEmail')}
             </p>
-            <Link href="/">
+            <Link href="/login">
               <button
                 onClick={handleLogout}
                 className="bg-[#7848F4] text-white p-3 rounded-md"

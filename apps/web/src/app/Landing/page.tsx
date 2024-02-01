@@ -13,11 +13,6 @@ export default function Home() {
 
   console.log(token);
 
-  // if (token) {
-  //   const data = jwtDecode<JwtPayload>(token);
-  //   console.log(data);
-  // }
-
   const handleText = () => {};
 
   const handleLogout = () => {

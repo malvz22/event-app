@@ -13,6 +13,7 @@ import Image from 'next/image';
 import Selector from './selector';
 import { cityData } from '../constant/cityArray';
 import path from 'path';
+import { useRouter } from 'next/navigation';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -41,6 +42,8 @@ const Createform = () => {
   const [file, setFile] = useState();
   // const navigate=useNavigate()
 
+  const router = useRouter();
+
   const changePayment = () => {
     setPayment(!payment);
     setDisabled(!disabled);
@@ -66,6 +69,8 @@ const Createform = () => {
       discountLimit: Number(discountLimit),
       cities: cities,
     });
+
+    router.push('/Landing');
   };
 
   const onImageUpload = (e: any) => {
