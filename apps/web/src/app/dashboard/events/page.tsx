@@ -1,6 +1,30 @@
+/* eslint-disable react/jsx-key */
+'use client';
+
 import DashboardSidebar from '@/components/DashboardSidebar';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 
 export default function DashboardEvent() {
+  const [dataBlog, setDataBlog] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(4);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = async () => {
+    const response = await axios.get('http://localhost:8000/event');
+    setDataBlog(response.data);
+    console.log(dataBlog.title);
+  };
+
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentPosts = dataBlog.slice(firstPostIndex, lastPostIndex);
+
   return (
     <>
       <div className="flex flex-row">
@@ -33,42 +57,25 @@ export default function DashboardEvent() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="odd: bg-white even:bg-gray-200 border-b ">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-black whitespace-nowrap"
-                    >
-                      Event Name Here
-                    </th>
-                    <td className="px-6 py-4">Event Category Here</td>
-                    <td className="px-6 py-4">Event Location Here</td>
-                    <td className="px-6 py-4">Event StartDate Here</td>
-                    <td className="px-6 py-4">Event EndDate Here</td>
-                  </tr>
-                  <tr className="odd: bg-white even:bg-gray-200 border-b ">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-black whitespace-nowrap"
-                    >
-                      Event Name Here
-                    </th>
-                    <td className="px-6 py-4">Event Category Here</td>
-                    <td className="px-6 py-4">Event Location Here</td>
-                    <td className="px-6 py-4">Event StartDate Here</td>
-                    <td className="px-6 py-4">Event EndDate Here</td>
-                  </tr>
-                  <tr className="odd: bg-white even:bg-gray-200 border-b ">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-black whitespace-nowrap"
-                    >
-                      Event Name Here
-                    </th>
-                    <td className="px-6 py-4">Event Category Here</td>
-                    <td className="px-6 py-4">Event Location Here</td>
-                    <td className="px-6 py-4">Event StartDate Here</td>
-                    <td className="px-6 py-4">Event EndDate Here</td>
-                  </tr>
+                  {currentPosts.map((product) => (
+                    <Link href={`Landing/detailsEvent/${product.id}`}>
+                      <tr
+                        key={product.id}
+                        className="odd: bg-white even:bg-gray-200 border-b "
+                      >
+                        <td
+                          scope="row"
+                          className="px-6 py-4 font-medium text-black whitespace-nowrap"
+                        >
+                          {product.title}
+                        </td>
+                        <td className="px-6 py-4">{product.categoryName}</td>
+                        <td className="px-6 py-4">{product.location}</td>
+                        <td className="px-6 py-4">{product.startDate}</td>
+                        <td className="px-6 py-4">{product.endDate}</td>
+                      </tr>
+                    </Link>
+                  ))}
                 </tbody>
               </table>
             </div>

@@ -29,7 +29,7 @@ export default function DashboardPage() {
       <div className="flex flex-row">
         <DashboardSidebar />
         <div className="flex flex-col p-4 max-w-[1400px] mx-auto">
-          <div className="flex flex-row gap-5 justify-between mb-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-between mb-5">
             <Card className="max-w-[300px]">
               <CardHeader>
                 <CardTitle>Today's Income</CardTitle>
@@ -87,7 +87,7 @@ export default function DashboardPage() {
               </CardFooter>
             </Card>
           </div>
-          <Card className="">
+          <Card className="max-w-[600px] md:max-w-full">
             <CardHeader>
               <CardTitle>This Week's Profit</CardTitle>
             </CardHeader>

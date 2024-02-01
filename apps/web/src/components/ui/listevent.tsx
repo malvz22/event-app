@@ -37,12 +37,12 @@ const Listevent = () => {
         <h1 className="text-black font-bold text-[30px] lg:text-[40px] mb-[2rem]">
           Upcoming<span className="text-[#7848F4] ">Event </span>
         </h1>
-        <div className="grid-cols-4 grid gap-[3rem]  items-center justify-center">
+        <div className=" grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid gap-[3rem]  items-center justify-center">
           {currentPosts.map((product) => (
             // eslint-disable-next-line react/jsx-key
             <Link href={`Landing/detailsEvent/${product.id}`}>
               <div
-                className="bg-white shadow-2xl p-[3rem] w-[25rem] rounded-[1rem] mb-[3rem]"
+                className="bg-white justify-center items-center max-w-[300px] shadow-2xl overflow-hidden rounded-[1rem] mb-[3rem]"
                 key={product.id}
               >
                 <div className="flex relative ">

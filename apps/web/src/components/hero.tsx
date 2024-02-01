@@ -13,7 +13,7 @@ const Hero = () => {
           alt="hero picture"
           width={1440}
           height={500}
-          className=" lg:w-full px-[3rem] pt-[1rem] w-auto "
+          className=" w-full px-[3rem] pt-[1rem] mx-auto w-auto "
         />
 
         <div className="bg-[#10107B] lg:h-60 md:h-48 h-60 lg:-translate-y-32 md:-translate-y-24 -translate-y-16 mx-[7rem] rounded-[1.5rem] flex">
