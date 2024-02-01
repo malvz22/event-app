@@ -3,6 +3,7 @@ import {
   getEvents,
   // getEventById,
   createEvent,
+  getEventById,
   // updateEvent,
   // deleteEvent,
 } from '../controllers/addevent.controller';
@@ -14,7 +15,8 @@ import { uploader } from '../middleware/uploader';
 const router = express.Router();
 
 router.get('/event', getEvents);
-// router.get('/events/:id', getEventById);
+router.get('/event/detail', getEvents);
+router.get('/events/:id', getEventById);
 router.post('/event', createEvent);
 // router.post('/upload', uploader('IMG', '/image').single('image'), addNewImage);
 export default router;

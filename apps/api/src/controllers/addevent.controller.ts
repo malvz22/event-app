@@ -16,25 +16,25 @@ export const getEvents = async (
   next: NextFunction,
 ) => {
   try {
-    const response = await prisma.eventList.findMany({ take: 2 });
+    const response = await prisma.eventList.findMany();
     res.status(200).json(response);
   } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
 
-// export const getEventById = async (req: any, res: any) => {
-//   try {
-//     const response = await prisma.event.findUnique({
-//       where: {
-//         id: Number(req.params.id),
-//       },
-//     });
-//     res.status(200).json(response);
-//   } catch (err: any) {
-//     res.status(404).json({ msg: err.message });
-//   }
-// };
+export const getEventById = async (req: any, res: any) => {
+  try {
+    const response = await prisma.eventList.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+    res.status(200).json(response);
+  } catch (err: any) {
+    res.status(404).json({ msg: err.message });
+  }
+};
 
 export const createEvent = async (
   req: Request,
@@ -51,6 +51,10 @@ export const createEvent = async (
     price,
     totalSeat,
     categoryName,
+    cities,
+    discount,
+    discountLimit,
+    organizer
   }: {
     title: string;
     description: string;
@@ -60,7 +64,11 @@ export const createEvent = async (
     isFree: Payment;
     price: number;
     totalSeat: number;
-    categoryName?: string;
+    categoryName: string;
+    cities:string;
+    discount:number;
+    discountLimit:number;
+    organizer:string;
   } = req.body;
 
   await prisma.eventList.create({
@@ -73,6 +81,9 @@ export const createEvent = async (
       endDate: endDate,
       price: price,
       totalSeat: totalSeat,
+      discount:discount,
+      discountLimit:discountLimit,
+      organizer:organizer,
       categories: {
         connectOrCreate: {
           where: {
@@ -80,6 +91,16 @@ export const createEvent = async (
           },
           create: {
             categoryName: categoryName,
+          },
+        },
+      },
+      cities: {
+        connectOrCreate: {
+          where: {
+            cityName: cities,
+          },
+          create: {
+            cityName: cities,
           },
         },
       },

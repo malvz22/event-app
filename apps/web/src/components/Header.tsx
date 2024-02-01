@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Hamburger from './ui/hamburger';
 import Navbar from './ui/navbar';
 import { useState } from 'react';
-import Button from './ui/button';
+import Buttonweb from './ui/buttonWeb';
 
 export const Header = () => {
   const [isSideMenu, setSideMenu] = useState(true);
@@ -25,11 +25,11 @@ export const Header = () => {
           <Navbar />
         </div>
         <div className="flex w-32 justify-end gap-3 items-center lg:mx-[2rem]">
-          <Link href="/registration">
-            <Button type="button" title="signup" />
+          <Link href="/">
+            <Buttonweb type="button" title="signup" />
           </Link>
           <Link href="/login">
-            <Button type="button" title="login" />
+            <Buttonweb type="button" title="login" />
           </Link>
           <button className="visible lg:invisible" onClick={toggleNavbar}>
             <Hamburger />
