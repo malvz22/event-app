@@ -4,14 +4,41 @@ import Link from 'next/link';
 
 import Hamburger from './ui/hamburger';
 import Navbar from './ui/navbar';
-import { useState } from 'react';
-import Buttonweb from './ui/buttonWeb';
+import { useEffect, useState } from 'react';
+import Button from './ui/button';
+import { useRouter } from 'next/navigation';
 
 export const Header = () => {
   const [isSideMenu, setSideMenu] = useState(true);
+  const [showButtons, setShowButtons] = useState(true);
+  const [displayUser, setDisplayUser] = useState(false);
   const toggleNavbar = () => {
     setSideMenu(() => !isSideMenu);
   };
+  const token = localStorage.getItem('token');
+
+  const router = useRouter();
+
+  const refreshPage = () => {
+    window.location.reload();
+    router.push('/Landing');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
+    refreshPage();
+  };
+
+  useEffect(() => {
+    if (token) {
+      setDisplayUser(!displayUser);
+      setShowButtons(!showButtons);
+    } else if (!token) {
+      setDisplayUser(displayUser);
+      setShowButtons(showButtons);
+    }
+  }, [token]);
 
   return (
     <header className="w-full border-b items-center z-1000">
@@ -25,12 +52,34 @@ export const Header = () => {
           <Navbar />
         </div>
         <div className="flex w-32 justify-end gap-3 items-center lg:mx-[2rem]">
-          <Link href="/">
-            <Buttonweb type="button" title="signup" />
-          </Link>
-          <Link href="/login">
-            <Buttonweb type="button" title="login" />
-          </Link>
+          <div className={showButtons ? 'flex gap-3' : 'hidden'}>
+            <Link href="/registration">
+              <Button type="button" title="signup" />
+            </Link>
+            <Link href="/login">
+              <Button type="button" title="login" />
+            </Link>
+          </div>
+
+          <div
+            className={
+              displayUser
+                ? 'flex gap-3 justify-center items-center align-middle'
+                : 'hidden'
+            }
+          >
+            <p className="cursor-pointer">
+              {localStorage.getItem('userEmail')}
+            </p>
+            <Link href="/">
+              <button
+                onClick={handleLogout}
+                className="bg-[#7848F4] text-white p-3 rounded-md"
+              >
+                logout
+              </button>
+            </Link>
+          </div>
           <button className="visible lg:invisible" onClick={toggleNavbar}>
             <Hamburger />
           </button>

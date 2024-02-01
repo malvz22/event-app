@@ -18,8 +18,9 @@ export default function LoginPage() {
       });
       console.log('Response from server:', response.data);
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userEmail', response.data.data.email);
       alert('Successfully Login');
-      router.push('/');
+      router.push('/Landing');
     } catch (error: any) {
       console.error(
         'Error during Login:',
